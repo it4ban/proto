@@ -177,10 +177,10 @@ body {
 	}
 
 	&__inputs {
-		flex: 1 1 327px;
+		width: 327px;
 
-		@media (max-width: 520px) {
-			flex-basis: auto;
+		@media (max-width: 560px) {
+			width: auto;
 		}
 	}
 
