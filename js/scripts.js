@@ -3,15 +3,32 @@ $(() => {
 	const constraints = {
 		auth: {
 			email: {
-				presence: { allowEmpty: false },
-				email: true,
+				presence: { allowEmpty: false, message: ': поле не может быть пустым.' },
+				email: { message: ': пожалуйста, введите правильный адрес электронной почты.' },
 			},
 		},
 		password: {
 			password: {
-				presence: { allowEmpty: false },
+				presence: { allowEmpty: false, message: ': не может быть пустым.' },
 				length: {
 					minimum: 6,
+					message: ': должен содержать минимум 6 символов.',
+				},
+			},
+		},
+		'reset-password': {
+			password: {
+				presence: { allowEmpty: false, message: ': не может быть пустым.' },
+				length: {
+					minimum: 6,
+					message: ': должен содержать минимум 6 символов.',
+				},
+			},
+			confirm_password: {
+				presence: { allowEmpty: false, message: ': не может быть пустым.' },
+				equality: {
+					attribute: 'password',
+					message: ': не совпадают.',
 				},
 			},
 		},
@@ -43,8 +60,8 @@ $(() => {
 
 			// Проходим по всем ошибкам
 			for (let field in errors) {
-				const errorMessage = errors[field].join('<br>'); // Собираем сообщения для каждого поля
-				errorMessages += errorMessage + '<br>'; // Добавляем сообщение в строку
+				const errorMessage = errors[field].join('<br>');
+				errorMessages += errorMessage + '<br>';
 			}
 
 			// Выводим все ошибки в одном блоке

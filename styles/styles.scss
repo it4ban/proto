@@ -244,7 +244,7 @@ body {
 
 @keyframes focusAnimation {
 	0% {
-		letter-spacing: -0.05em;
+		letter-spacing: -0.01em;
 		filter: blur(1.2px);
 		opacity: 0;
 	}
@@ -255,20 +255,5 @@ body {
 	100% {
 		filter: blur(0); /* Вновь размывается */
 		opacity: 1; /* Текст исчезает */
-	}
-}
-
-.fade-down {
-	animation: fadeDown 500ms ease-out forwards;
-}
-
-@keyframes fadeDown {
-	0% {
-		transform: translateY(0);
-		opacity: 1;
-	}
-	100% {
-		transform: translateY(100%);
-		opacity: 0;
 	}
 }
