@@ -57,6 +57,7 @@ body {
 
 		@media (max-width: 576px) {
 			padding: 28px 20px;
+			width: 100%;
 		}
 
 		@media (max-width: 480px) {
@@ -118,6 +119,7 @@ body {
 	background: #f2f3f5;
 	border-radius: 5px;
 	font-size: 16px;
+	border-radius: 5px 0 0 5px;
 	line-height: 125%;
 	letter-spacing: -0.02em;
 
@@ -157,6 +159,10 @@ body {
 	&:hover {
 		background: linear-gradient(135deg, #00aae7 0%, #004e8c 100%);
 	}
+
+	&--rounded {
+		border-radius: 5px;
+	}
 }
 
 .form-sublink {
@@ -171,6 +177,19 @@ body {
 	display: flex;
 	width: 100%;
 
+	&--column {
+		flex-direction: column;
+		gap: 30px;
+
+		.form-content__inputs {
+			width: 434px;
+
+			@media (max-width: 560px) {
+				width: 100%;
+			}
+		}
+	}
+
 	@media (max-width: 520px) {
 		flex-direction: column;
 		gap: 10px;
@@ -178,15 +197,17 @@ body {
 
 	&__inputs {
 		width: 327px;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 
 		@media (max-width: 560px) {
-			width: auto;
+			width: 100%;
 		}
 	}
 
 	&__input {
 		width: 100%;
-		border-radius: 5px 0 0 5px !important;
 		padding: 19px 20px;
 
 		@media (max-width: 520px) {
