@@ -1,0 +1,45 @@
+{
+	"auth": {
+		"action": "/",
+		"title": "Вход",
+		"message": "Введите почту, чтобы войти или зарегистрироваться",
+		"inputs": [
+			{
+				"type": "text",
+				"placeholder": "Электронная почта",
+				"name": "email"
+			}
+		],
+		"buttonText": "Продолжить",
+		"prevUrl": ""
+	},
+	"password": {
+		"action": "/",
+		"title": "Введите пароль",
+		"message": "",
+		"inputs": [
+			{
+				"type": "password",
+				"placeholder": "******",
+				"name": "password"
+			}
+		],
+		"buttonText": "Войти",
+		"prevUrl": "/"
+	},
+	"resetPassword": {
+		"action": "/",
+		"title": "Забыли пароль",
+		"message": "Введите почту, на которой был создан аккаунт",
+		"inputs": [
+			{
+				"type": "text",
+				"placeholder": "Электронная почта",
+				"name": "email"
+			}
+		],
+		"buttonText": "Восстановить",
+		"prevUrl": "/",
+		"prevUrlTitle": "Вернуться назад"
+	}
+}
