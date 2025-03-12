@@ -22,7 +22,7 @@ $(() => {
 
 	function handleClick(e) {
 		e.preventDefault();
-		let dataValue = $(e.target).attr('data-set-form');
+		let dataValue = $(e.currentTarget).attr('data-set-form');
 
 		console.log(dataValue);
 		changeFormState(dataValue);
