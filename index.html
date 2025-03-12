@@ -18,13 +18,29 @@
 	</head>
 	<body>
 		<div class="form-container">
-			<form action="/password.html" class="user-form" data-form-type="auth">
+			<form class="user-form" data-form-type="auth">
+				<button class="form-icon user-form__back-icon" data-type="password" data-set-form="auth">
+					<svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path
+							d="M7.42195 12.8779C7.59348 12.7063 7.68985 12.4736 7.68985 12.2309C7.68985 11.9883 7.59348 11.7556 7.42195 11.584L2.8927 7.05479L7.42195 2.52554C7.58862 2.35297 7.68085 2.12184 7.67876 1.88193C7.67668 1.64202 7.58045 1.41253 7.4108 1.24288C7.24115 1.07323 7.01166 0.977001 6.77175 0.974916C6.53184 0.972831 6.30071 1.06506 6.12814 1.23173L0.951981 6.40789C0.780445 6.57948 0.684082 6.81217 0.684082 7.05479C0.684082 7.29742 0.780445 7.53011 0.951981 7.7017L6.12814 12.8779C6.29972 13.0494 6.53242 13.1458 6.77504 13.1458C7.01767 13.1458 7.25036 13.0494 7.42195 12.8779Z"
+							fill="#004E8C"
+						/>
+					</svg>
+				</button>
+
 				<img class="book-img user-form__book-top" src="img/book-1.png" srcset="img/book-1@2x.png 2x" alt="Book 1" />
 
 				<div class="user-form__wrapper">
 					<div class="user-form__top">
-						<p class="form-title">Вход</p>
-						<p class="form-message">Введите почту, чтобы войти или зарегистрироваться</p>
+						<p class="form-title animate__animated" data-type="auth">Вход</p>
+						<p class="form-message animate__animated" data-type="auth">
+							Введите почту, чтобы войти или зарегистрироваться
+						</p>
+						<p class="form-title animate__animated" data-type="password">Введите пароль</p>
+						<p class="form-title animate__animated" data-type="forgot-password">Забыли пароль?</p>
+						<p class="form-message animate__animated" data-type="forgot-password">
+							Введите почту, на которой был создан аккаунт
+						</p>
 					</div>
 
 					<div class="form-content">
@@ -32,12 +48,21 @@
 							<input type="text" placeholder="Электронная почта" name="email" class="form-input form-content__input" />
 						</div>
 
-						<button type="submit" class="form-button form-content__button">
-							<p class="form-button__text">Продолжить</p>
-						</button>
+						<div class="form-content__buttons">
+							<button class="form-button form-content__button" data-type="auth" data-set-form="password">
+								Продолжить
+							</button>
+							<button class="form-button form-content__button" data-type="password" data-set-page="auth">Войти</button>
+							<button class="form-button form-content__button" data-type="forgot-password" data-set-page="checkout">
+								Восстановить
+							</button>
+						</div>
 					</div>
 
-					<a href="/" class="form-sublink">Вернуться назад</a>
+					<div class="form-bottom">
+						<button class="form-sublink" data-type="password" data-set-form="forgot-password">Забыли пароль</button>
+						<button class="form-sublink" data-type="forgot-password" data-set-form="password">Вернуться назад</button>
+					</div>
 				</div>
 
 				<div class="error"></div>
@@ -52,6 +77,6 @@
 			crossorigin="anonymous"
 		></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
-		<script src="js/scripts.js"></script>
+		<script type="module" src="js/scripts.js"></script>
 	</body>
 </html>

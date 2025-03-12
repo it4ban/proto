@@ -1,0 +1,196 @@
+import jsonData from '/data/formData.json' with {type: "json"};
+
+$(() => {
+	class FormManager {
+		constructor(formSelector, jsonData) {
+			this.form = $(formSelector);
+			this.formData = jsonData;
+			this.errorContainer = $('.error');
+			this.bottomLink = $('.form-sublink');
+			this.formButton = $('.form-button');
+			this.formHistory = [];
+			this.init();
+		}
+
+		init() {
+			this.loadForm('auth');
+			this.formButton.on('click', (e) => this.nextForm(e));
+			this.bottomLink.on('click', (e) => this.prevForm(e));
+			this.form.on('submit', (e) => this.handleSubmit(e));
+		}
+
+		updateElement(selector, content) {
+			$(selector)
+				.text(content || '')
+				.toggleClass('d-none', !content);
+		}
+
+		updateForm(formType) {
+			const formData = this.formData[formType];
+			if (!formData) return this.showError('Ошибка загрузки формы');
+
+			this.form.attr({
+				action: formData.action,
+				method: formData.methoh,
+				'data-form-type': formType,
+			});
+
+			this.updateElement('.form-title', formData.title);
+			this.updateElement('.form-message', formData.message);
+			this.updateElement('.form-button__text', formData.formButton.label);
+
+			const inputsContainer = $('.form-content__inputs');
+			inputsContainer.empty();
+
+			formData.inputs.forEach((input) => {
+				const newInput = $('<input>', {
+					type: input.type,
+					placeholder: input.placeholder,
+					name: input.name,
+					class: 'form-input form-content__input',
+				});
+				inputsContainer.append(newInput);
+			});
+
+			if (formData.prevIcon) {
+				$('.form-icon').toggleClass('d-none');
+			}
+
+			this.updateLinks('.form-sublink', formData.bottomButton.nextForm, formData.bottomButton.label);
+		}
+
+		loadForm(formType) {
+			if (this.formData[formType]) {
+				this.updateForm(formType);
+			} else {
+				this.showError('Ошибка загрузки формы');
+			}
+		}
+
+		nextForm(e) {
+			e.preventDefault();
+			const currentForm = this.form.data('form-type');
+			const nextForm = this.formData[currentForm]?.formButton.nextForm;
+
+			if (nextForm) {
+				if (nextForm.startsWith('/')) {
+					window.location.href = nextForm;
+				} else {
+					this.formHistory.push(currentForm);
+					this.loadForm(nextForm);
+				}
+			}
+		}
+
+		prevForm(e) {
+			e.preventDefault();
+			if (this.formHistory.length > 0) {
+				this.loadForm(this.formHistory.pop());
+			}
+		}
+
+		handleSubmit(e) {
+			e.preventDefault();
+			const formData = this.form.serialize();
+			const actionUrl = this.form.attr('action');
+			const method = this.form.attr('method');
+
+			$.ajax({
+				url: actionUrl,
+				method: method,
+				data: formData,
+				dataType: 'json',
+				success: (response) => {
+					if (response.success) {
+						this.nextForm(e);
+					} else {
+						this.showError(response.error);
+					}
+				},
+				error: () => {
+					this.showError('Не удалось отправить данные');
+				},
+			});
+		}
+
+		showError(error) {
+			this.errorContainer.text(error);
+		}
+	}
+
+	// Передаем JSON напрямую
+	new FormManager('.user-form', jsonData);
+
+	// // Определение ограничений для валидации
+	// const constraints = {
+	// 	auth: {
+	// 		email: {
+	// 			presence: { allowEmpty: false, message: ': поле не может быть пустым.' },
+	// 			email: { message: ': пожалуйста, введите правильный адрес электронной почты.' },
+	// 		},
+	// 	},
+	// 	password: {
+	// 		password: {
+	// 			presence: { allowEmpty: false, message: ': не может быть пустым.' },
+	// 			length: {
+	// 				minimum: 6,
+	// 				message: ': должен содержать минимум 6 символов.',
+	// 			},
+	// 		},
+	// 	},
+	// 	'reset-password': {
+	// 		password: {
+	// 			presence: { allowEmpty: false, message: ': не может быть пустым.' },
+	// 			length: {
+	// 				minimum: 6,
+	// 				message: ': должен содержать минимум 6 символов.',
+	// 			},
+	// 		},
+	// 		confirm_password: {
+	// 			presence: { allowEmpty: false, message: ': не может быть пустым.' },
+	// 			equality: {
+	// 				attribute: 'password',
+	// 				message: ': не совпадают.',
+	// 			},
+	// 		},
+	// 	},
+	// };
+
+	// // Обработчик отправки формы
+	// $('.user-form').on('submit', (e) => {
+	// 	e.preventDefault(); // Останавливаем стандартную отправку формы
+
+	// 	const formType = $('.user-form').data('form-type'); // Определям тип формы, по которому будем проводить валидацию
+	// 	const formData = {}; // Определяем какие поля следует валидировать
+
+	// 	$('.user-form')
+	// 		.find('input')
+	// 		.each(function () {
+	// 			const name = $(this).attr('name');
+	// 			const value = $(this).val();
+
+	// 			formData[name] = value;
+	// 		});
+
+	// 	const errors = validate(formData, constraints[formType]); // Выполняем валидацию данных
+
+	// 	// Очищаем блок с ошибками перед каждым новым выводом
+	// 	$('.error').text('');
+
+	// 	if (errors) {
+	// 		let errorMessages = ''; // Строка для сбора всех сообщений об ошибках
+
+	// 		// Проходим по всем ошибкам
+	// 		for (let field in errors) {
+	// 			const errorMessage = errors[field].join('<br>');
+	// 			errorMessages += errorMessage + '<br>';
+	// 		}
+
+	// 		// Выводим все ошибки в одном блоке
+	// 		$('.error').html(errorMessages);
+	// 	} else {
+	// 		// Если ошибок нет, отправляем форму
+	// 		e.target.submit();
+	// 	}
+	// });
+});

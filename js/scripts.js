@@ -1,74 +1,34 @@
 $(() => {
-	// Определение ограничений для валидации
-	const constraints = {
-		auth: {
-			email: {
-				presence: { allowEmpty: false, message: ': поле не может быть пустым.' },
-				email: { message: ': пожалуйста, введите правильный адрес электронной почты.' },
-			},
-		},
-		password: {
-			password: {
-				presence: { allowEmpty: false, message: ': не может быть пустым.' },
-				length: {
-					minimum: 6,
-					message: ': должен содержать минимум 6 символов.',
-				},
-			},
-		},
-		'reset-password': {
-			password: {
-				presence: { allowEmpty: false, message: ': не может быть пустым.' },
-				length: {
-					minimum: 6,
-					message: ': должен содержать минимум 6 символов.',
-				},
-			},
-			confirm_password: {
-				presence: { allowEmpty: false, message: ': не может быть пустым.' },
-				equality: {
-					attribute: 'password',
-					message: ': не совпадают.',
-				},
-			},
-		},
-	};
+	const changeFormBtn = $('button[data-set-form]');
+	const fieldsForm = $('[data-type]');
+	const setPageBtn = $('button[data-set-page]');
 
-	// Обработчик отправки формы
-	$('.user-form').on('submit', (e) => {
-		e.preventDefault(); // Останавливаем стандартную отправку формы
+	console.log(fieldsForm);
+	console.log(setPageBtn);
 
-		const formType = $('.user-form').data('form-type'); // Определям тип формы, по которому будем проводить валидацию
-		const formData = {}; // Определяем какие поля следует валидировать
+	function changeFormState(fieldName) {
+		fieldsForm.each(function () {
+			const field = $(this);
 
-		$('.user-form')
-			.find('input')
-			.each(function () {
-				const name = $(this).attr('name');
-				const value = $(this).val();
-
-				formData[name] = value;
-			});
-
-		const errors = validate(formData, constraints[formType]); // Выполняем валидацию данных
-
-		// Очищаем блок с ошибками перед каждым новым выводом
-		$('.error').text('');
-
-		if (errors) {
-			let errorMessages = ''; // Строка для сбора всех сообщений об ошибках
-
-			// Проходим по всем ошибкам
-			for (let field in errors) {
-				const errorMessage = errors[field].join('<br>');
-				errorMessages += errorMessage + '<br>';
+			if (field.attr('data-type') !== fieldName) {
+				field.fadeOut(400); // Отключаем поле
+			} else {
+				field.fadeIn(400); // Включаем поле, если оно соответствует fieldName
 			}
+		});
+	}
 
-			// Выводим все ошибки в одном блоке
-			$('.error').html(errorMessages);
-		} else {
-			// Если ошибок нет, отправляем форму
-			e.target.submit();
-		}
+	changeFormState('auth');
+
+	function handleClick(e) {
+		e.preventDefault();
+		let dataValue = $(e.target).attr('data-set-form');
+
+		console.log(dataValue);
+		changeFormState(dataValue);
+	}
+
+	changeFormBtn.each((_, btn) => {
+		$(btn).on('click', handleClick);
 	});
 });
