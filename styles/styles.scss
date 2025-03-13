@@ -11,6 +11,17 @@ body {
 	height: 100vh;
 }
 
+button {
+	outline: none;
+	border: none;
+	background: none;
+	cursor: pointer;
+}
+
+.animate__animated.animate__fadeOutUp {
+	animation-duration: 800ms;
+}
+
 .form-container {
 	font-family: 'Manrope', sans-serif;
 	font-optical-sizing: auto;
@@ -28,6 +39,9 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 
+	overflow: hidden; // Нужно для плавной смены высоты
+	transition: height 400ms ease-out; // Плавное изменение высоты
+
 	@media (max-width: 520px) {
 		height: auto;
 	}
@@ -36,6 +50,19 @@ body {
 .book-img {
 	width: auto;
 	max-width: 100%;
+}
+
+.form-backicon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background-color: #f2f3f5;
+	border-radius: 50%;
+	position: absolute;
+	top: 20px;
+	left: 20px;
 }
 
 .user-form {
@@ -47,6 +74,20 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	position: relative;
+	transition: all 400ms ease-out;
+
+	&--disabled {
+		position: absolute;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&--active {
+		position: relative;
+		opacity: 1;
+		visibility: visible;
+	}
 
 	&__wrapper {
 		padding: 50px;
@@ -64,6 +105,12 @@ body {
 		@media (max-width: 480px) {
 			gap: 15px;
 		}
+	}
+
+	&__back-icon {
+		position: absolute;
+		left: 20px;
+		top: 20px;
 	}
 
 	&__top {
@@ -130,6 +177,12 @@ body {
 	border-radius: 5px 0 0 5px;
 	line-height: 125%;
 	letter-spacing: -0.02em;
+	transition: border 300ms ease-in-out, background-color 300ms ease-in;
+
+	&--error {
+		border: 1px solid rgb(252, 13, 13);
+		background-color: #fee0e0;
+	}
 
 	&--rounded {
 		border-radius: 5px;
@@ -149,6 +202,7 @@ body {
 	&:focus,
 	&:active {
 		outline: none;
+		background: #f2f3f5;
 		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 }
@@ -160,9 +214,12 @@ body {
 	line-height: 129%;
 	letter-spacing: -0.02em;
 	color: #fff;
-	outline: none;
-	border: none;
-	cursor: pointer;
+	width: auto;
+	height: 60px;
+
+	@media (max-width: 520px) {
+		height: 50px;
+	}
 
 	&__text {
 		animation: focusAnimation 500ms ease-out forwards;
@@ -177,13 +234,15 @@ body {
 	}
 }
 
+.form-subbutton,
 .form-sublink {
-	text-decoration: none;
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 106%;
 	letter-spacing: -0.01em;
 	color: #00aae7;
 	animation: focusAnimation 500ms ease-out forwards;
+	text-decoration: none;
 }
 
 .form-content {
@@ -197,7 +256,7 @@ body {
 		.form-content__inputs {
 			width: 434px;
 
-			@media (max-width: 560px) {
+			@media (max-width: 576px) {
 				width: 100%;
 			}
 		}
@@ -232,14 +291,47 @@ body {
 	}
 
 	&__button {
-		min-height: 100%;
 		padding: 11px 30px;
 
 		@media (max-width: 520px) {
+			width: 100%;
 			padding: 14px 30px;
 			border-radius: 5px !important;
 		}
 	}
+}
+
+.input-field {
+	position: relative;
+}
+
+.eye-button {
+	position: absolute;
+	top: 24px;
+	right: 10px;
+	width: 18px;
+	height: 18px;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 400ms ease-in-out;
+	cursor: pointer;
+
+	@media (max-width: 520px) {
+		top: 16px;
+	}
+
+	&--active {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.field-error {
+	color: rgba(255, 0, 0, 0.907);
+	font-size: 14px;
+	padding-top: 4px;
+	padding-left: 4px;
+	transition: all 400ms ease-in-out;
 }
 
 @keyframes focusAnimation {
