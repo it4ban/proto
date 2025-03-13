@@ -11,8 +11,11 @@ body {
 	height: 100vh;
 }
 
-.d-none {
-	display: none !important;
+button {
+	outline: none;
+	border: none;
+	background: none;
+	cursor: pointer;
 }
 
 .form-container {
@@ -32,6 +35,9 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 
+	overflow: hidden; // Нужно для плавной смены высоты
+	transition: height 400ms ease-out; // Плавное изменение высоты
+
 	@media (max-width: 520px) {
 		height: auto;
 	}
@@ -42,7 +48,7 @@ body {
 	max-width: 100%;
 }
 
-.form-icon {
+.form-backicon {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -50,8 +56,9 @@ body {
 	height: 32px;
 	background-color: #f2f3f5;
 	border-radius: 50%;
-	border: none;
-	outline: none;
+	position: absolute;
+	top: 20px;
+	left: 20px;
 }
 
 .user-form {
@@ -64,6 +71,19 @@ body {
 	flex-direction: column;
 	align-items: center;
 	position: relative;
+	transition: all 400ms ease-out;
+
+	&--disabled {
+		position: absolute;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&--active {
+		position: relative;
+		opacity: 1;
+		visibility: visible;
+	}
 
 	&__wrapper {
 		padding: 50px;
@@ -183,9 +203,12 @@ body {
 	line-height: 129%;
 	letter-spacing: -0.02em;
 	color: #fff;
-	outline: none;
-	border: none;
-	cursor: pointer;
+	width: auto;
+	height: 60px;
+
+	@media (max-width: 520px) {
+		height: 50px;
+	}
 
 	&__text {
 		animation: focusAnimation 500ms ease-out forwards;
@@ -200,8 +223,8 @@ body {
 	}
 }
 
-.form-sublink {
-	text-decoration: none;
+.form-subbutton {
+	font-size: 17px;
 	font-weight: 400;
 	line-height: 106%;
 	letter-spacing: -0.01em;
@@ -263,6 +286,35 @@ body {
 			border-radius: 5px !important;
 		}
 	}
+}
+
+.input-password {
+	position: relative;
+}
+
+.eye-button {
+	position: absolute;
+	top: 35%;
+	transform: translateY(-35%);
+	right: 10px;
+	width: 18px;
+	height: 18px;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 400ms ease-in-out;
+	cursor: pointer;
+
+	&--active {
+		opacity: 1;
+		visibility: visible;
+	}
+}
+
+.field-error {
+	color: rgba(255, 0, 0, 0.907);
+	font-size: 14px;
+	padding-top: 4px;
+	padding-left: 4px;
 }
 
 @keyframes focusAnimation {
