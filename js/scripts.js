@@ -64,6 +64,12 @@ $(() => {
 				email: { message: 'Пожалуйста, введите правильный адрес электронной почты.' },
 			},
 		},
+		'forgot-password': {
+			email: {
+				presence: { allowEmpty: false, message: 'Поле не может быть пустым.' },
+				email: { message: 'Пожалуйста, введите правильный адрес электронной почты.' },
+			},
+		},
 		password: {
 			password: {
 				presence: { allowEmpty: false, message: 'Поле не может быть пустым.' },
@@ -97,8 +103,10 @@ $(() => {
 		e.preventDefault();
 
 		const currentTarget = $(e.currentTarget);
+		const currentForm = currentTarget.closest('form');
+		const formType = currentForm.data('form-type');
+
 		if (currentTarget.hasClass('form-button')) {
-			const formType = currentTarget.closest('form').data('form-type');
 			const isValid = validation.isValid(formType);
 
 			if (!isValid) {
@@ -109,6 +117,12 @@ $(() => {
 		let nextForm = currentTarget.attr('data-set-form');
 
 		if (nextForm) {
+			const formInputs = currentForm.find('input');
+			$(formInputs).addClass('animate__fadeOutUp');
+			$(formInputs).on('animationend', function () {
+				$(formInputs).removeClass('animate__fadeOutUp');
+			});
+
 			userForms.each((_, form) => {
 				let formElem = $(form);
 				let formAttr = formElem.attr('data-form-type');
@@ -129,7 +143,23 @@ $(() => {
 					}
 				}
 			});
+		} else {
+			currentForm.trigger('submit');
 		}
+	}
+
+	function handleIconClick(e) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		const currentIcon = $(e.currentTarget);
+		currentIcon.addClass('animate__fadeOutDown');
+
+		currentIcon.on('animationend', function () {
+			currentIcon.removeClass('animate__fadeOutDown');
+		});
+
+		handleClick(e);
 	}
 
 	function handleVisiblePassword(e) {
@@ -153,6 +183,6 @@ $(() => {
 
 	$(formButtons).on('click', (e) => handleClick(e));
 	$(formSubbuttons).on('click', (e) => handleClick(e));
-	$(formBackIcons).on('click', (e) => handleClick(e));
+	$(formBackIcons).on('click', (e) => handleIconClick(e));
 	$(eyeButtons).on('click', (e) => handleVisiblePassword(e));
 });
