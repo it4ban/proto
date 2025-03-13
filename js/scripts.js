@@ -11,36 +11,25 @@ $(() => {
 		}
 
 		isValid(formType) {
-			const currentForm = $(
-				userForms.filter(function () {
-					return $(this).data('form-type') === formType;
-				}),
-			);
+			const currentForm = userForms.filter((_, form) => {
+				return $(form).data('form-type') === formType;
+			});
 
-			let formData = [];
-			let errors = {};
+			let formData = {};
 
 			currentForm.find('input').each((_, input) => {
 				const name = $(input).attr('name');
-				if ($(name).hasClass('form-input--error')) {
-					name.removeClass('form-input--error');
-				}
+				$(input).removeClass('form-input--error');
 
-				const value = $(input).val();
-
-				formData.push({
-					[name]: value,
-				});
+				formData[name] = $(input).val();
 			});
 
-			formData.forEach((data) => {
-				errors = validate(data, this.validationParams[formType], { format: 'detailed' });
-			});
+			let errors = validate(formData, this.validationParams[formType], { format: 'detailed' });
 
-			$(currentForm).find('.field-error').text('');
-			$(currentForm).find('input').removeClass('form-input--error');
+			currentForm.find('.field-error').text('');
+			currentForm.find('input').removeClass('form-input--error');
 
-			if (errors) {
+			if (errors && Object.keys(errors).length > 0) {
 				this.printErrors(errors, currentForm);
 			} else {
 				return true;
@@ -86,7 +75,7 @@ $(() => {
 		},
 		'reset-password': {
 			password: {
-				presence: { allowEmpty: false, message: 'Поле не может быть пустым.' },
+				presence: { allowEmpty: false, message: 'Пароль не может быть пустым.' },
 				length: {
 					minimum: 6,
 					message: 'Пароль должен содержать минимум 6 символов.',
