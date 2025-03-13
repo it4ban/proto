@@ -173,6 +173,12 @@ button {
 	border-radius: 5px 0 0 5px;
 	line-height: 125%;
 	letter-spacing: -0.02em;
+	transition: all 300ms ease-in-out;
+
+	&--error {
+		border: 1px solid rgb(252, 13, 13);
+		background-color: #fee0e0;
+	}
 
 	&--rounded {
 		border-radius: 5px;
@@ -192,6 +198,7 @@ button {
 	&:focus,
 	&:active {
 		outline: none;
+		background: #f2f3f5;
 		border: 1px solid rgba(0, 0, 0, 0.1);
 	}
 }
@@ -278,24 +285,23 @@ button {
 	}
 
 	&__button {
-		min-height: 100%;
 		padding: 11px 30px;
 
 		@media (max-width: 520px) {
+			width: 100%;
 			padding: 14px 30px;
 			border-radius: 5px !important;
 		}
 	}
 }
 
-.input-password {
+.input-field {
 	position: relative;
 }
 
 .eye-button {
 	position: absolute;
-	top: 35%;
-	transform: translateY(-35%);
+	top: 25px;
 	right: 10px;
 	width: 18px;
 	height: 18px;
@@ -303,6 +309,10 @@ button {
 	visibility: hidden;
 	transition: all 400ms ease-in-out;
 	cursor: pointer;
+
+	@media (max-width: 520px) {
+		top: 16px;
+	}
 
 	&--active {
 		opacity: 1;

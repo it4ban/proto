@@ -18,7 +18,7 @@
 	</head>
 	<body>
 		<div class="form-container">
-			<form class="user-form user-form--disabled" data-form-type="auth">
+			<form class="user-form user-form--active" data-form-type="auth">
 				<img class="book-img user-form__book-top" src="img/book-1.png" srcset="img/book-1@2x.png 2x" alt="Book 1" />
 
 				<div class="user-form__wrapper">
@@ -29,7 +29,16 @@
 
 					<div class="form-content">
 						<div class="form-content__inputs">
-							<input type="text" placeholder="Электронная почта" name="email" class="form-input form-content__input" />
+							<div class="input-field">
+								<input
+									type="text"
+									placeholder="Электронная почта"
+									name="email"
+									class="form-input form-content__input"
+								/>
+
+								<div class="field-error"></div>
+							</div>
 						</div>
 
 						<div class="form-content__buttons">
@@ -41,7 +50,7 @@
 				<img class="book-img user-form__book-bottom" src="img/book-2.png" srcset="img/book-2@2x.png 2x" alt="Book 2" />
 			</form>
 
-			<form class="user-form user-form--active" data-form-type="password">
+			<form class="user-form user-form--disabled" data-form-type="password">
 				<button class="form-backicon" data-set-form="auth">
 					<svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<path
@@ -59,8 +68,10 @@
 
 					<div class="form-content">
 						<div class="form-content__inputs">
-							<div class="input-password">
+							<div class="input-field">
 								<input type="password" name="password" placeholder="******" class="form-input form-content__input" />
+
+								<div class="field-error"></div>
 
 								<button class="eye-button eye-button--active">
 									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
@@ -77,8 +88,6 @@
 										/>
 									</svg>
 								</button>
-
-								<div class="field-error">Ошибка</div>
 							</div>
 						</div>
 
@@ -104,7 +113,16 @@
 
 					<div class="form-content">
 						<div class="form-content__inputs">
-							<input type="text" name="email" placeholder="Электронная почта" class="form-input form-content__input" />
+							<div class="input-field">
+								<input
+									type="text"
+									name="email"
+									placeholder="Электронная почта"
+									class="form-input form-content__input"
+								/>
+
+								<div class="field-error"></div>
+							</div>
 						</div>
 
 						<button class="form-button form-content__button">
